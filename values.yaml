@@ -6,8 +6,8 @@ replicaCount: 1
 
 image:
   repository: codercom/code-server
-  tag: '4.143.1'
-  pullPolicy: Always
+  tag: '4.144.0'
+  pullPolicy: IfNotPresent
 
 # Specifies one or more secrets to be used when pulling images from a
 # private container repository
@@ -52,14 +52,16 @@ service:
   annotations: {}
 
 ingress:
-  enabled: false
-  #annotations:
-  #  kubernetes.io/tls-acme: "true"
-  #hosts:
-  #  - host: code-server.example.loc
-  #    paths:
-  #      - /
-  ingressClassName: ""
+  enabled: true
+  annotations:
+    # kubernetes.io/tls-acme: "true"
+    nginx.org/mergeable-ingress-type: master
+    nginx.org/path-regex: case_sensitive
+  ingressClassName: "nginx"
+  hosts:
+   - host: code.localhost
+     paths:
+       - /
   #tls:
   #  - secretName: code-server
   #    hosts:
